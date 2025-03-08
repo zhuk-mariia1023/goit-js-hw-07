@@ -11,7 +11,8 @@ const destroyBtn = controls.querySelector('[data-destroy]');
 const boxesContainer = document.querySelector('#boxes');
 
 createBtn.addEventListener('click', () => {
-  const amount = Number(input.value);
+  const amount = parseInt(input.value);
+
   if (amount >= 1 && amount <= 100) {
     createBoxes(amount);
     input.value = '';
@@ -23,21 +24,16 @@ createBtn.addEventListener('click', () => {
 destroyBtn.addEventListener('click', destroyBoxes);
 
 function createBoxes(amount) {
-  boxesContainer.innerHTML = ''; // Очистка перед рендером нової колекції
-  const boxes = [];
+  destroyBoxes();
   let size = 30;
+  let markup = '';
 
   for (let i = 0; i < amount; i++) {
-    const box = document.createElement('div');
-    box.style.width = `${size}px`;
-    box.style.height = `${size}px`;
-    box.style.backgroundColor = getRandomHexColor();
-    box.style.margin = '5px';
-    boxes.push(box);
+    markup += `<div style="width: ${size}px; height: ${size}px; background-color: ${getRandomHexColor()}; margin: 5px;"></div>`;
     size += 10;
   }
 
-  boxesContainer.append(...boxes);
+  boxesContainer.insertAdjacentHTML('beforeend', markup);
 }
 
 function destroyBoxes() {
